@@ -10,6 +10,7 @@ defmodule ProblyLive do
     children = [
       # Start the endpoint when the application starts
       supervisor(ProblyLive.Endpoint, []),
+      supervisor(ProblyLive.Presence, [])
       # Start your own worker by calling: ProblyLive.Worker.start_link(arg1, arg2, arg3)
       # worker(ProblyLive.Worker, [arg1, arg2, arg3]),
     ]
