@@ -7,7 +7,7 @@ defmodule ProblyLive.SpeedChannel do
     {:ok, socket}
   end
 
-  def handle_info("after_join", socket) do
+  def handle_info(:after_join, socket) do
     Presence.track(socket, socket.assigns.user_id, %{})
     push socket, "presence_state", Presence.list(socket)
     {:noreply, socket}

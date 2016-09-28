@@ -1,9 +1,9 @@
 <div class="jumbotron">
   <h2>Probably live</h2>
   <form>
-    <label><input type='radio' name='speed'> Slow down</label>
-    <label><input type='radio' checked name='speed'> You're good</label>
-    <label><input type='radio' name='speed'> Speed up</label>
+    <label><input type='radio' name='speed' value='down'> Slow down</label>
+    <label><input type='radio' name='speed' value='good' checked> You're good</label>
+    <label><input type='radio' name='speed' value='up'> Speed up</label>
   </form>
   <p><span id='num-online'>0</span> people online</p>
   <p><span id='percentage-down'>0</span>% people say slow down</p>

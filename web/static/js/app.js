@@ -25,7 +25,7 @@ let $down = document.getElementById('percentage-down');
 let $good = document.getElementById('percentage-good');
 let $up = document.getElementById('percentage-up');
 
-let render = function({up, good, down}) {
+let doRender = function({up, good, down}) {
   let total = up + good + down;
 
   $online.innerHTML = total + '';
@@ -34,8 +34,45 @@ let render = function({up, good, down}) {
   $up.innerHTML = 100 * (up / total) + '';
 }
 
-render({
-  down: 2,
-  good: 1,
-  up: 1
-});
+let render = (presences) => {
+  let overall_state = {
+    up: 0,
+    down: 0,
+    good: 0
+  }
+
+  Presence.list(presences, (id, {metas: [first, ...rest]}) => {
+    return first.speed
+  }).forEach((speed) => {
+    overall_state[speed]++;
+  })
+
+  doRender(overall_state)
+}
+
+import { Socket, Presence } from "phoenix"
+
+let socket = new Socket("/socket", { params: {user_id: window.userId}})
+socket.connect();
+let channel = socket.channel('speed', {});
+
+let presences = {};
+
+channel.on('presence_state', state => {
+  presences = Presence.syncState(presences, state);
+  render(presences)
+})
+
+channel.on('presence_diff', diff => {
+  presences = Presence.syncDiff(presences, diff)
+  render(presences)
+})
+
+channel.join()
+
+document.querySelector('form').addEventListener('change', function(e) {
+  let speed = e.target.value;
+  channel.push('speed_set', {speed})
+})
+
+channel.push('speed_set', {speed: 'good'})
