@@ -2,7 +2,7 @@ defmodule ProblyLive.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", ProblyLive.RoomChannel
+  channel "speed", ProblyLive.SpeedChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
