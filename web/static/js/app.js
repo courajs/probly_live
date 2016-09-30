@@ -41,8 +41,8 @@ let render = (presences) => {
     good: 0
   }
 
-  Presence.list(presences, (id, {metas: [first, ...rest]}) => {
-    return first.speed
+  Presence.list(presences, (id, {metas}) => {
+    return metas[0].speed
   }).forEach((speed) => {
     overall_state[speed]++;
   })
@@ -74,5 +74,3 @@ document.querySelector('form').addEventListener('change', function(e) {
   let speed = e.target.value;
   channel.push('speed_set', {speed})
 })
-
-channel.push('speed_set', {speed: 'good'})
